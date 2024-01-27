@@ -123,4 +123,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ENCRYPTION_KEY = env.bytes('ENCRYPTION_KEY')
+# ENCRYPTION_KEY = env.bytes('ENCRYPTION_KEY')
