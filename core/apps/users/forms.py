@@ -1,8 +1,11 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
-
-from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    AuthenticationForm,
+    PasswordResetForm,
+    SetPasswordForm
+)
 from django.utils.translation import gettext_lazy as _
 
 from core.apps.almon.models import Almon
@@ -40,8 +43,8 @@ class RegistrationForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = UsernameField(label=_("Your Username"),
-                             widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Username"}))
+    username = forms.EmailField(label=_("Your Email"),
+                                widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Email"}))
     password = forms.CharField(
         label=_("Your Password"),
         strip=False,
@@ -77,3 +80,25 @@ class UpdatePasswordForm(forms.ModelForm):
                 'placeholder': 'website name',
             }),
         }
+
+
+class PasswdResetForm(PasswordResetForm):
+    email = forms.EmailField(max_length=254, widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'Email', 'id': 'form-email'}))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        u = User.objects.filter(email=email)
+        if not u:
+            raise forms.ValidationError(
+                'Unfortunately we can not find that email address')
+        return email
+
+
+class PasswdResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='New password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-newpass'}))
+    new_password2 = forms.CharField(
+        label='Repeat password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass2'}))

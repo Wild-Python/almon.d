@@ -10,10 +10,14 @@ class UserLoginView(LoginView):
     form_class = LoginForm
     template_name = 'users/login.html'
 
+    def form_valid(self, form):
+        print(form.cleaned_data['username'])
+        return super(UserLoginView, self).form_valid(form)
+
 
 def user_login_view(request):
     if request.user.is_authenticated:
-        return redirect('/home')
+        return redirect('/')
     return UserLoginView.as_view()(request)
 
 
