@@ -35,7 +35,7 @@ class EmailMixin:
     @staticmethod
     def __send_activation_email(request, user):
         """Send activation email."""
-        html_message = render_to_string('accounts/registration/account_activation_email.html', {
+        html_message = render_to_string('users/registration/account_activation_email.html', {
             'domain': get_current_site(request).domain,
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': Token_Generator.make_token(user),
