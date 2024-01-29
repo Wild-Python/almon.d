@@ -30,8 +30,7 @@ class RegistrationForm(UserCreationForm, EmailMixin):
         }
 
     def __init__(self, *args, **kwargs):
-        print(kwargs)
-        # self.request = kwargs.pop('request')
+        self.request = kwargs.pop('request')
         super(RegistrationForm, self).__init__(*args, **kwargs)
 
         self.fields['password1'].widget.attrs.update(

@@ -10,8 +10,12 @@ urlpatterns = [
     # users account
     # path('', views.UserLoginView.as_view(), name='index'),
     path('login/', views.user_login_view, name='login'),
-    path('register/', views.register_page, name='register'),
+    path('register/', views.UserRegistrationView.as_view(), name='register'),
     path('logout/', views.logout_view, name="logout"),
+
+    # account activation urls
+    path('confirm-email/', views.UserAccountEmailConfirmView.as_view(), name='confirm-email'),
+    path('activate/<uid>/<token>/', views.UserAccountActivationView.as_view(), name='activate'),
 
     # Password reset URLs
     path('password-reset/', auth_views.PasswordResetView.as_view(
