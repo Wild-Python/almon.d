@@ -20,5 +20,5 @@ class AlmonForm(forms.ModelForm):
             {'class': 'form-control', 'placeholder': 'Password'})
         self.fields['application_type'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'e.g., Website, Mobile App, Desktop Application'})
-        self.fields['website_name'].widget.attrs.update(
+        self.fields['application_name'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'e.g., Google, WhatsApp, PyCharm'})

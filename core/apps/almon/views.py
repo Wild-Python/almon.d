@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, TemplateView, ListView
 
@@ -33,7 +33,7 @@ class AddNewPasswordView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
 
-        messages.success(self.request, f"New password added for {form.cleaned_data['website_name']}")
+        messages.success(self.request, f"New password added for {form.cleaned_data['application_name']}")
         return super().form_valid(form)
 
 

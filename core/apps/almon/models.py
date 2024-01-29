@@ -10,7 +10,7 @@ class Almon(models.Model):
     password = models.CharField(max_length=100)
 
     application_type = models.CharField(max_length=30)
-    website_name = models.CharField(max_length=30, blank=True)
+    application_name = models.CharField(max_length=30, blank=True)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_last_updated = models.DateTimeField(auto_now=True)
