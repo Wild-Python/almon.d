@@ -1,33 +1,38 @@
 .PHONY: runserver
 runserver:
 ifeq ($(port),)
-	python -m manage runserver
+	python manage.py runserver
 else
-	python -m manage runserver $(port)
+	python manage.py runserver $(port)
 endif
 
 .PHONY: superuser
 superuser:
-	python -m manage createsuperuser
+	python manage.py createsuperuser
 
 .PHONY: migrations
 migrations:
 ifeq ($(app),)
-	python -m manage makemigrations
+	python manage.py makemigrations
 else
-	python -m manage makemigrations $(app)
+	python manage.py makemigrations $(app)
 endif
 
 .PHONY: migrate
 migrate:
-	python -m manage migrate
+	python manage.py migrate
 
 .PHONY: shell
 shell:
-	python -m manage shell
+	python manage.py shell
 
 .PHONY: dbshell
 dbshell:
-	python -m manage dbshell
+	python manage.py dbshell
+
+
+.PHONY: tailstart
+tailstart:
+	python manage.py tailwind start
 
 
