@@ -9,7 +9,7 @@ from django.views.generic import CreateView, DeleteView, UpdateView, TemplateVie
 
 from .models import Almon
 from .forms import AlmonForm
-# from .cryptor import Cryptor
+from .cryptor import Cryptor
 from .utils import generate_random_password
 
 from django.utils.decorators import method_decorator
@@ -49,6 +49,17 @@ class UpdatePasswordView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('almon:update-password', kwargs={'pk': self.object.id})
+
+    def form_valid(self, form):
+        instance = self.get_object()
+
+        if form.cleaned_data['email'] != instance.decrypted_email:
+            form.instance.email = Cryptor.encrypt(form.cleaned_data['email'])
+
+        if form.cleaned_data['password'] != instance.decrypted_password:
+            form.instance.password = Cryptor.encrypt(form.cleaned_data['password'])
+
+        return super().form_valid(form)
 
 
 @method_decorator(cache_control(no_cache=True, must_revalidate=True, no_store=True), name='dispatch')

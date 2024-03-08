@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{#{% load decrypt_tags %}#}
+{% load decrypt_tags %}
 
 {% block content %}
     <section class="container">
@@ -46,12 +46,12 @@
                         <tbody>
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td>{{ password.email }}</td>
+                            <td>{{ password.email|decrypt_password }}</td>
                             <td>{{ password.username }}</td>
                             <td>
                                 <div class="input-group input-group-sm">
                                     <input class="form-control" type="password" id={{ forloop.counter }}
-                                            value="{{ password.password }}" disabled readonly>
+                                            value="{{ password.password|decrypt_password }}" disabled readonly>
                                     <div class="input-group-append">
                                         <button onclick="toggleView({{ forloop.counter }})"
                                                 class="btn btn-sm btn-outline-secondary" type="button"
