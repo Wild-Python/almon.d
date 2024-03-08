@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from .cryptor import Cryptor
 
 
 class Almon(models.Model):
@@ -14,3 +15,11 @@ class Almon(models.Model):
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_last_updated = models.DateTimeField(auto_now=True)
+
+    @property
+    def decrypted_email(self):
+        return Cryptor.decrypt(self.email)
+
+    @property
+    def decrypted_password(self):
+        return Cryptor.decrypt(self.password)
