@@ -14,11 +14,18 @@ class AlmonForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'Email'}
         )
+        self.fields['category'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'Category'}
+        )
         self.fields['username'].widget.attrs.update(
-            {'class': 'form-control', 'placeholder': 'Username'})
+            {'class': 'form-control', 'placeholder': 'Username'}
+        )
         self.fields['password'].widget.attrs.update(
-            {'class': 'form-control', 'placeholder': 'Password'})
+            {'class': 'form-control', 'placeholder': 'Password'}
+        )
         self.fields['application_type'].widget.attrs.update(
-            {'class': 'form-control', 'placeholder': 'e.g., Website, Mobile App, Desktop Application'})
+            {'class': 'form-control', 'placeholder': 'e.g., Website, Mobile App, Desktop Application'}
+        )
         self.fields['application_name'].widget.attrs.update(
-            {'class': 'form-control', 'placeholder': 'e.g., Google, WhatsApp, PyCharm'})
+            {'class': 'form-control', 'placeholder': 'e.g., Google, WhatsApp, PyCharm'}
+        )
