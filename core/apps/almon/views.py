@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, TemplateView, ListView
 
-from .models import Almon
+from .models import Almon, Category
 from .forms import AlmonForm
 from .cryptor import Cryptor
 from .utils import generate_random_password
@@ -30,9 +30,14 @@ class AddNewPasswordView(LoginRequiredMixin, CreateView):
     template_name = 'almon/add-new-password.html'
     success_url = reverse_lazy('almon:add-password')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()  # Pass all categories to the template
+        return context
+
     def form_valid(self, form):
         form.instance.user = self.request.user
-
+        print(form)
         messages.success(self.request, f"New password added for {form.cleaned_data['application_name']}")
         return super().form_valid(form)
 
@@ -102,10 +107,20 @@ class ManagePasswordsView(LoginRequiredMixin, ListView):
         return Almon.objects.filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
+
+        # Get all categories
+        categories = Category.objects.all()
+        context['categories'] = categories
+
+        # Filter passwords based on selected category
+        selected_category_id = self.request.GET.get('category')
         user_passwords = self.get_queryset()
 
+        if selected_category_id:
+            user_passwords = user_passwords.filter(category_id=selected_category_id)
+
+        # Sorting logic remains the same
         sort_order = self.request.GET.get('sort_order', 'desc')
         if sort_order == 'asc':
             user_passwords = user_passwords.order_by('date_created')
@@ -114,9 +129,10 @@ class ManagePasswordsView(LoginRequiredMixin, ListView):
 
         context['all_passwords'] = user_passwords
         context['sort_order'] = sort_order
+        context['selected_category_id'] = selected_category_id
 
         if not user_passwords:
-            context['no_password'] = "No password available. Please add password."
+            context['no_password'] = "No password available. Please add a password."
 
         return context
 
